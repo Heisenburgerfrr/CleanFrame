@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { openPreview, root } from './browser.mjs';
 
-const KEY = 'cleanframe.home.v1';
+const KEY = 'cleanframe.home.au7600.v1';
 const PRIMARY = ['youtube', 'jiohotstar', 'browser', 'netflix', 'primevideo', 'disneyplus', 'appletv', 'spotify', 'stremio'];
 const IDS = ['9Ur5IzDKqV.TizenYouTube', 'jiohotstar', 'org.tizen.browser', 'org.tizen.netflix-app', 'org.tizen.primevideo', 'MCmYXNxgcu.DisneyPlus', 'com.samsung.tv.aria-video', 'rJeHak5zRg.Spotify', 'IkWsFHtOY9.Stremio'];
 const NAMES = ['YouTube', 'JioHotstar', 'Internet', 'Netflix', 'Prime Video', 'Disney+', 'Apple TV', 'Spotify', 'Stremio'];
