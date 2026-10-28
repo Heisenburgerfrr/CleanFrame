@@ -48,13 +48,7 @@
     launchApp(IDS[brand], done);
   }
   function art(done) {
-    if (!api()) { unavailable(done); return; }
-    var finish = bounded(done);
-    try {
-      var data = [new tizen.ApplicationControlData('mode', ['fullscreen']), new tizen.ApplicationControlData('requester', ['mobile'])];
-      var control = new tizen.ApplicationControl('http://tizen.org/appcontrol/operation/default', null, null, null, data);
-      api().launchAppControl(control, 'org.tizen.art-app', function () { finish(null); }, function (err) { finish(failure(err)); });
-    } catch (err) { finish(failure(err)); }
+    done({ message: 'Art Mode is not supported on this TV.' });
   }
   function home(done) { launchApp('com.samsung.tv.csfs', done); }
   function settings(done) { launchApp('com.samsung.tv.coba.setting', done); }
