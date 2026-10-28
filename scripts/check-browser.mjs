@@ -4,14 +4,14 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { openPreview, root } from './browser.mjs';
 
 const KEY = 'cleanframe.home.v1';
-const PRIMARY = ['stremio', 'netflix', 'disneyplus', 'youtube', 'appletv', 'primevideo', 'abciview', 'sbs', 'applemusic'];
-const IDS = ['IkWsFHtOY9.Stremio', 'org.tizen.netflix-app', 'MCmYXNxgcu.DisneyPlus', '9Ur5IzDKqV.TizenYouTube', 'com.samsung.tv.aria-video', 'org.tizen.primevideo', 'mWK87Xghap.ABCiview', 'OyE7OuxlUi.SBSOnDemand', 'org.tizen.apple.apple-music'];
-const NAMES = ['Stremio', 'Netflix', 'Disney+', 'YouTube', 'Apple TV', 'Prime Video', 'ABC iview', 'SBS On Demand', 'Apple Music'];
-const EXTRA = 'AbCdEf1234.FamilyApp', SPOTIFY = 'rJeHak5zRg.Spotify';
+const PRIMARY = ['youtube', 'jiohotstar', 'browser', 'netflix', 'primevideo', 'disneyplus', 'appletv', 'spotify', 'stremio'];
+const IDS = ['9Ur5IzDKqV.TizenYouTube', 'jiohotstar', 'org.tizen.browser', 'org.tizen.netflix-app', 'org.tizen.primevideo', 'MCmYXNxgcu.DisneyPlus', 'com.samsung.tv.aria-video', 'rJeHak5zRg.Spotify', 'IkWsFHtOY9.Stremio'];
+const NAMES = ['YouTube', 'JioHotstar', 'Internet', 'Netflix', 'Prime Video', 'Disney+', 'Apple TV', 'Spotify', 'Stremio'];
+const EXTRA = 'AbCdEf1234.FamilyApp', TUBI = '3KA0pm7a7V.TubiTV';
 const UNSAFE_NAME = 'Family <img src=x onerror="window.__catalogXss=1"> & TV';
 const CATALOG = IDS.map((id, i) => ({ id, name: NAMES[i], show: true, iconPath: '' })).concat([
   { id: EXTRA, name: UNSAFE_NAME, show: true, iconPath: '' },
-  { id: SPOTIFY, name: 'Spotify', show: true, iconPath: '' },
+  { id: TUBI, name: 'Tubi', show: true, iconPath: '' },
   { id: '5b8c3eb16b.BeamCTVDev', name: 'HBO Max', show: true, iconPath: '' },
   { id: 'nClrkHome1.FrameHome', name: 'CleanFrame', show: true },
   { id: 'AbCdEf1234.worker', name: 'Background worker', show: true },
@@ -402,11 +402,11 @@ try {
     check('Consumer catalogue excludes services, self and duplicate YouTube', names.length === 12 && names.filter(n => n === 'YouTube').length === 1 && !names.includes('CleanFrame') && !names.includes('Background worker'), names);
     check('Installed names stay text, including HTML punctuation', names.includes(UNSAFE_NAME) && !(await current.evaluate(() => window.__catalogXss)));
     check('Exploration fixtures do not appear', !names.includes('Plex') && !names.includes('Jellyfin'));
-    await act('apps.open.' + SPOTIFY); await current.waitForFunction(() => __tv.calls.length > 0);
-    check('Extra-brand app launches native ID', (await current.evaluate(() => __tv.calls.at(-1))).id === SPOTIFY);
+    await act('apps.open.' + TUBI); await current.waitForFunction(() => __tv.calls.length > 0);
+    check('Extra-brand app launches native ID', (await current.evaluate(() => __tv.calls.at(-1))).id === TUBI);
     await current.evaluate(() => window.dispatchEvent(new Event('focus')));
     await scene('home'); await act('home.app.netflix'); await current.waitForFunction(() => __tv.calls.length === 2);
-    check('Primary app keeps verified target', (await current.evaluate(() => __tv.calls.at(-1))).id === IDS[1]);
+    check('Primary app keeps verified target', (await current.evaluate(() => __tv.calls.at(-1))).id === IDS[3]);
     await current.evaluate(() => window.dispatchEvent(new Event('focus'))); await group('samsung'); await act('samsung.home');
     await current.waitForFunction(() => __tv.calls.length === 3);
     check('Samsung escape keeps CSFS target', (await current.evaluate(() => __tv.calls.at(-1))).id === 'com.samsung.tv.csfs');
